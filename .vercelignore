@@ -1,0 +1,6 @@
+# Lo que NO debe publicarse en el sitio (contiene claves o no es parte de la web)
+docs/
+supabase/
+LIBRO-MAESTRO.md
+README.md
+.gitignore
