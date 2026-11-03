@@ -15,8 +15,8 @@ sobre el mismo repositorio. Antes de tocar nada, se lee. Al terminar, se actuali
 | **Sitio en producción** | https://estudio-maiz.vercel.app |
 | **Repositorio** | https://github.com/frecuenciamaiz-lab/app |
 | **Rama de trabajo** | `main` |
-| **Última ronda** | Ronda 7 — fotos a color, holograma hiperrealista, medallas de ruta, libros con volumen, maíz minimalista |
-| **Actualizado** | 2 de noviembre de 2026 |
+| **Última ronda** | Ronda 8 — mapa arreglado (CARTO dejó de ser gratis; ahora OpenStreetMap) |
+| **Actualizado** | 3 de noviembre de 2026 |
 
 ### Lo que está funcionando
 Estudio Maíz (brief, cotizador, portafolio), Frecuencia Maíz (radio), Ruta Maíz (mapa, rutas por
@@ -28,8 +28,11 @@ calles reales, Pasaporte con 3 libros), Bitácora (Pokédex con GPS, voz, 3D y j
 - **Fotos de especies:** las que no están guardadas se buscan en vivo en iNaturalist. Conviene
   correr *Buscar fotos* en el panel para dejarlas guardadas.
 - **Google Maps apagado.** El proyecto de Google Cloud es `813869802112`. Faltan activar
-  facturación, *Maps JavaScript API* y *Map Tiles API*. Mientras tanto el sitio usa mapas
+  facturación, *Maps JavaScript API* y *Map Tiles API*. No hace falta: el sitio usa mapas
   gratuitos y funciona bien.
+- **CARTO quedó fuera.** Dejó de dar teselas gratis sin clave. El mapa base ahora es
+  OpenStreetMap. Quedan 3 archivos con la dirección vieja, cubiertos por un puente temporal
+  en `assets/gmap.js` (ver Pendientes → Otros).
 
 ---
 
@@ -92,6 +95,20 @@ Quien va a trabajar escribe aquí su área antes de empezar, y la borra al termi
 
 Lo más nuevo arriba. Una línea por ronda: qué se hizo, quién y qué quedó pendiente.
 
+### Ronda 8 — 3 nov 2026 · Claude
+- **Causa real de que el mapa no se viera: CARTO, no Google.** CARTO dejó de entregar sus
+  teselas gratis sin clave; ahora responde 200 pero con la marca *"API KEY REQUIRED"* pintada
+  encima de cada cuadrito. Por eso el mapa salía tapado aunque todo lo demás funcionaba.
+- Mapa base cambiado a **OpenStreetMap** (`https://tile.openstreetmap.org/{z}/{x}/{y}.png`,
+  atribución `© OpenStreetMap`), que sí es libre y sin clave. Verificado: 0 teselas de CARTO,
+  0 rotas, en `/ruta-maiz`, `/bitacora?t=explorar` y `/brief`.
+- Corregido en el código fuente de `assets/ruta.js` y `assets/pokedex.js`.
+- `assets/gmap.js` tiene un **puente temporal** (`__maizTeselas`) que cambia la dirección de
+  CARTO por la de OpenStreetMap en cuanto Leaflet queda cargado. Cubre los archivos que
+  todavía no se corrigieron en la fuente. **Al corregir `panel.js`, `panel-ext.js` y `brief.js`,
+  bórrelo.**
+- Satélite (Esri) y Relieve (OpenTopoMap) se verificaron: siguen funcionando.
+
 ### Ronda 7 — 2 nov 2026 · Claude
 - Fichas de especie: se quitó el filtro azul; la foto se ve a **color real** dentro de un visor
   tipo Pokédex con marco dorado.
@@ -140,6 +157,10 @@ Ordenados por lo que más falta. Al tomar uno, anótelo en los turnos.
 - [ ] **Rutas base por zona** y tipo de experiencia.
 
 ### Otros
+- [ ] **Quitar CARTO de la fuente** en `assets/panel.js` (2 lugares), `assets/panel-ext.js`
+      y `assets/brief.js`: cambiar la dirección por
+      `https://tile.openstreetmap.org/{z}/{x}/{y}.png` y la atribución por `© OpenStreetMap`.
+      Hecho eso, borrar el bloque `__maizTeselas` de `assets/gmap.js`.
 - [ ] **Malinche**: Tienda (catálogo, carrito, pedido por WhatsApp) y Estudio Malinche.
 - [ ] **Cuatro idiomas** en toda la app; hoy solo en la Bitácora.
 - [ ] **"Así se ve la luz"**: paisaje con línea de tiempo de mañana, tarde y noche.

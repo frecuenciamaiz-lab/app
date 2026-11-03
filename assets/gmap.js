@@ -9,11 +9,36 @@
 
   // Proveedor recordado en este dispositivo. Por defecto: mapa gratuito (OpenStreetMap), sin pedir nada a Google.
   const PROV = localStorage.getItem("maiz_mapa_prov") || "osm";
+  // ---------- Teselas base ----------
+  // CARTO dejó de entregar sus teselas gratis sin clave: ahora las devuelve con la
+  // marca "API KEY REQUIRED" encima del mapa. Mientras queden llamadas antiguas con
+  // esa dirección, aquí se cambian por el mapa base de OpenStreetMap, que sí es libre.
+  // Lo correcto es quitar la dirección de CARTO de cada archivo (ruta.js y pokedex.js
+  // ya están corregidos); pendientes: panel.js y panel-ext.js. Cuando no quede
+  // ninguna, este bloque se puede borrar.
+  window.__maizTeselas = function () {
+    if (!window.L || !L.tileLayer || L.tileLayer.__maizOSM) return;
+    const viejo = L.tileLayer;
+    const nuevo = function (url, opts) {
+      if (typeof url === "string" && /basemaps\.cartocdn\.com/.test(url)) {
+        url = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+        opts = Object.assign({}, opts, { attribution: "© OpenStreetMap" });
+      }
+      return viejo(url, opts);
+    };
+    Object.keys(viejo).forEach(k => { nuevo[k] = viejo[k]; });
+    nuevo.__maizOSM = true;
+    L.tileLayer = nuevo;
+  };
+
   let USE_LEAFLET = !!window.L; // respaldo ya cargado (OpenStreetMap)
   if (!USE_LEAFLET && (PROV !== "google" || sessionStorage.getItem("maiz_osm") || +(localStorage.getItem("maiz_osm_hasta") || 0) > Date.now())) {
-    document.write('<link rel="stylesheet" href="' + LEAFLET + 'leaflet.css"><script src="' + LEAFLET + 'leaflet.js"><\/script>');
+    // la última etiqueta aplica el cambio de teselas en cuanto Leaflet queda cargado
+    document.write('<link rel="stylesheet" href="' + LEAFLET + 'leaflet.css"><script src="' + LEAFLET + 'leaflet.js"><\/script><script>__maizTeselas()<\/script>');
     USE_LEAFLET = true;
   }
+  __maizTeselas();
+
   // si en el panel se elige Google, este dispositivo lo usa desde la siguiente carga
   (MZ.cfgReady || Promise.resolve()).then(C => { const p = ((C && C.mapa) || {}).proveedor === "google" ? "google" : "osm"; try { localStorage.setItem("maiz_mapa_prov", p); } catch (e) {} });
   function fallback(recordar) {

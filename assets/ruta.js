@@ -8,7 +8,7 @@
   const EMO = { "Café": "☕", "Restaurante": "🍽️", "Hospedaje": "🛏️", "Finca": "🌱", "Tienda": "🛍️", "Experiencia": "🧭" };
   let LOC = [], RUT = [], cat = "", muni = "", precio = "", serv = "", query = "", tab = "lugares", activeRoute = null, activeId = null;
   const map = L.map("map", { zoomControl: false, typeControl: false }).setView([13.86, -89.75], 10);
-  const TILES = { roadmap: ["https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", "© OpenStreetMap · © CARTO"],
+  const TILES = { roadmap: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png", "© OpenStreetMap"],
     hybrid: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", "© Esri"],
     terrain: ["https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", "© OpenTopoMap"] };
   let base = L.tileLayer(TILES.roadmap[0], { maxZoom: 19, attribution: TILES.roadmap[1] }).addTo(map), vista = "roadmap", verReserva = localStorage.getItem("ruta_reserva") !== "0";

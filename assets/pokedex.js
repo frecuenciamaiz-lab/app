@@ -310,7 +310,7 @@
       <div class="pdx-mapbtns"><button class="icon-btn glass" id="cen" aria-label="${t("usar_ubicacion")}">◎</button><button class="icon-btn glass" id="sat" aria-label="Satélite">🛰️</button>
         <button class="icon-btn glass ${P.voz ? "on" : ""}" id="gv" aria-label="${t("guia_voz")}" title="${t("guia_voz")}">🔊</button></div></div>
       <div id="expInfo"></div>`;
-    const sat = ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", "© Esri"], base = ["https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", "© OpenStreetMap · © CARTO"];
+    const sat = ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", "© Esri"], base = ["https://tile.openstreetmap.org/{z}/{x}/{y}.png", "© OpenStreetMap"];
     mapa = L.map("mp", { zoomControl: false }).setView([13.84, -89.66], 11);
     let usaSat = false, capa = L.tileLayer(base[0], { attribution: base[1], maxZoom: 19 }).addTo(mapa);
     scr.querySelector("#sat").onclick = () => { usaSat = !usaSat; mapa.removeLayer(capa); const x = usaSat ? sat : base; capa = L.tileLayer(x[0], { attribution: x[1], maxZoom: 19 }).addTo(mapa); };

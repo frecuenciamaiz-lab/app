@@ -36,7 +36,7 @@
 .pdx-grid.lista{grid-template-columns:1fr;gap:6px}
 .pdx-grid.lista .pdx-it{display:flex;flex-direction:row;align-items:center;border-radius:14px}
 .pdx-grid.lista .pdx-ph{width:64px;height:64px;aspect-ratio:1;flex:none}
-.pdx-grid.lista .n{position:static;background:none;color:var(--ink-3);padding:0 0 0 10px;backdrop-filter:none}
+.pdx-grid.lista .n{position:static;background:none;color:var(--ink-3);padding:0 0 0 10px;backdrop-filter:none;box-shadow:none}
 .pdx-grid.lista .tx{flex:1;padding:8px 10px}
 .pdx-grid.lista .ok{position:static;margin-right:10px}
 .pdx-grid.lista .pdx-it::after{top:0;right:auto;width:4px;height:auto}
