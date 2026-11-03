@@ -1,0 +1,46 @@
+/* Ronda 6 · holograma de la Bitácora y estuche de medallas */
+/* ===== Holograma futurista ===== */
+.pdx-hero.holo{background:radial-gradient(120% 90% at 50% 100%,#0d3b4a,#06141c 60%,#020a0f)}
+.holo-stage{position:relative;perspective:900px;padding-bottom:18px}
+.pdx-hero.holo .pdx-ph.big{border:0;border-radius:18px;background-color:transparent;
+  filter:sepia(1) hue-rotate(150deg) saturate(2.6) brightness(1.15) contrast(1.15) drop-shadow(0 0 18px rgba(80,230,255,.75));
+  opacity:.9;animation:holoFloat 5s ease-in-out infinite,holoFlick 3.2s steps(1) infinite;transform-style:preserve-3d;
+  -webkit-mask-image:radial-gradient(85% 85% at 50% 45%,#000 55%,transparent 100%);mask-image:radial-gradient(85% 85% at 50% 45%,#000 55%,transparent 100%)}
+.pdx-hero.holo .pdx-ph.big i{filter:none}
+@keyframes holoFloat{0%,100%{transform:translateY(0) rotateY(-14deg)}50%{transform:translateY(-8px) rotateY(14deg)}}
+@keyframes holoFlick{0%,100%{opacity:.9}47%{opacity:.9}48%{opacity:.55}49%{opacity:.92}83%{opacity:.75}84%{opacity:.9}}
+.holo-scan{position:absolute;inset:0;pointer-events:none;border-radius:18px;
+  background:repeating-linear-gradient(0deg,rgba(120,240,255,.16) 0 1px,transparent 1px 4px),linear-gradient(180deg,transparent 0 40%,rgba(120,240,255,.25) 50%,transparent 60%) 0 -100%/100% 200% no-repeat;
+  animation:holoSweep 3.5s linear infinite;mix-blend-mode:screen}
+@keyframes holoSweep{to{background-position:0 0,0 200%}}
+.holo-base{position:absolute;left:18%;right:18%;bottom:2px;height:14px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(140,245,255,.95),rgba(40,180,220,.4) 60%,transparent);box-shadow:0 0 30px 8px rgba(80,220,255,.45);animation:holoPulse 2.4s ease-in-out infinite}
+@keyframes holoPulse{50%{opacity:.6;transform:scaleX(.92)}}
+.pdx-hero.holo .pdx-num{background:#06141c;color:#7ff0ff;box-shadow:0 0 0 1px rgba(127,240,255,.5)}
+.pdx-hero.holo .pdx-thumbs i.on{border-color:#7ff0ff}
+/* visor 3D holograma */
+.pdx-holo .pdx-3dbox{background:linear-gradient(180deg,#06141c,#0a2430);color:#c9f7ff;border:1px solid rgba(127,240,255,.35);box-shadow:0 0 40px rgba(60,200,255,.25)}
+.pdx-holo .pdx-3dbox .muted{color:#7fb9c6}
+.pdx-holo .icon-btn{background:rgba(127,240,255,.12);color:#c9f7ff;border-color:rgba(127,240,255,.4)}
+.holo-wrap{position:relative;margin-top:10px}
+.pdx-holo .pdx-3dv{margin-top:0;background:radial-gradient(90% 70% at 50% 100%,#0d3b4a,#020a0f)}
+.pdx-holo .pdx-3dv iframe,.pdx-holo .pdx-spin{filter:sepia(1) hue-rotate(150deg) saturate(2.4) brightness(1.2) contrast(1.15);animation:holoFlick 3.2s steps(1) infinite}
+.pdx-holo .holo-scan{border-radius:18px}
+.holo-cone{position:absolute;left:30%;right:30%;bottom:0;height:40%;pointer-events:none;
+  background:linear-gradient(0deg,rgba(120,240,255,.35),transparent);clip-path:polygon(35% 100%,65% 100%,100% 0,0 0);mix-blend-mode:screen;animation:holoPulse 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.pdx-hero.holo .pdx-ph.big,.holo-scan,.holo-base,.holo-cone{animation:none}}
+/* ===== Estuche de insignias (medallas de gimnasio) ===== */
+.md-case{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px;border-radius:14px;margin-bottom:12px;
+  background:radial-gradient(120% 100% at 50% 0,#3a1420,#1c0910);box-shadow:inset 0 0 0 2px #b8860b,inset 0 0 0 5px #2a0d16,inset 0 6px 18px rgba(0,0,0,.7)}
+.md-slot{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#2c0f18,#12050a);box-shadow:inset 0 3px 8px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.08)}
+.md{width:86%;height:86%;filter:grayscale(1) brightness(.35) contrast(1.2);opacity:.55}
+.md text{filter:grayscale(1)}
+.md.got{filter:drop-shadow(0 3px 4px rgba(0,0,0,.6)) drop-shadow(0 0 6px rgba(255,220,140,.35));opacity:1;animation:mdShine 4s ease-in-out infinite}
+.md.got text{filter:none}
+@keyframes mdShine{50%{filter:drop-shadow(0 3px 4px rgba(0,0,0,.6)) drop-shadow(0 0 12px rgba(255,230,160,.8))}}
+.md-list{display:flex;flex-direction:column;gap:6px}
+.md-list>div{display:flex;gap:10px;align-items:center;padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.35);font-size:.82rem}
+.md-list>div.got{background:rgba(255,236,170,.55)}
+.md-list b{display:block}.md-list small{color:#6e4a33}
+.md-mini{width:34px;height:34px;flex:none;display:grid;place-items:center}
+.md-mini .md{width:100%;height:100%}

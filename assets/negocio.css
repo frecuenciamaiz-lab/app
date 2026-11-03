@@ -1,0 +1,16 @@
+.ng{max-width:720px;padding:calc(24px + var(--safe-t,0px)) 16px calc(120px + var(--safe-b))}
+.ng-log{min-height:80vh;display:grid;place-items:center}
+.ng-log .card{width:min(400px,100%);padding:28px;border-radius:30px;text-align:center}
+.ng-pin{font-size:1.6rem;letter-spacing:.4em;text-align:center;font-weight:800}
+.ng-hd{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.ng-hd .ph{width:64px;height:64px;border-radius:18px;background:#efe3cf center/cover;flex:none;display:grid;place-items:center;font-size:1.8rem}
+.ng-sec{border-radius:24px;padding:18px;margin-bottom:12px}
+.ng-sec h3{margin-bottom:4px}.ng-sec>p.small{margin-bottom:12px}
+.ng-badge{display:inline-flex;gap:6px;align-items:center;font-size:.7rem;font-weight:800;border-radius:999px;padding:3px 9px}
+.ng-badge.d{background:rgba(47,125,79,.14);color:#2f7d4f}.ng-badge.r{background:rgba(244,194,48,.25);color:#7a5a08}
+.ng-cat{border-radius:16px;background:rgba(255,255,255,.55);padding:10px;margin-bottom:8px}
+.ng-it{display:grid;grid-template-columns:1fr 90px 32px;gap:6px;margin-top:6px}
+.ng-it .input,.ng-cat .input{padding:8px 10px;font-size:.9rem}
+.ng-foto{width:100%;aspect-ratio:16/9;border-radius:18px;background:#efe3cf center/cover;display:grid;place-items:center;color:var(--ink-3);margin-bottom:10px}
+.ng-save{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + var(--safe-b));width:min(680px,calc(100% - 24px));display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 10px 10px 18px;border-radius:999px;z-index:50}
+.ng-save .small{min-width:0}

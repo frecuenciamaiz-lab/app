@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Estudio Maíz · Agencia de contenido audiovisual</title>
+<meta name="description" content="Reels, videos y fotografía para negocios locales con enfoque de economía circular. Occidente de El Salvador.">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/v4.css">
+</head>
+<body class="pub estudio">
+<header class="u-top glass">
+  <a class="icon-btn" href="/" aria-label="Inicio" id="bk"></a>
+  <span class="t">Estudio Maíz</span>
+  <a class="btn btn-accent btn-sm" href="/brief">Agendar cita</a>
+</header>
+<main>
+  <section class="hero wrap">
+    <div class="reel-strip reveal"><i></i><i></i><i></i></div>
+    <div class="eyebrow reveal">Agencia de contenido audiovisual</div>
+    <h1 class="h-xl reveal" style="max-width:15ch">Videos que hacen que la gente quiera visitarle</h1>
+    <p class="sub reveal">Reels, videos y fotos para restaurantes, hoteles, fincas y tiendas. Mostramos su historia y cómo cuida la tierra.</p>
+    <div class="reveal row" style="justify-content:center"><a class="btn btn-primary" href="#precios">Ver precios y cotizar</a><a class="btn btn-ghost" href="#portafolio">Ver trabajos</a></div>
+  </section>
+
+  <section class="section narrow" id="elija">
+    <div class="sec-h reveal"><div><div class="eyebrow">Elija lo que necesita</div><h2 class="h-lg">¿Qué quiere lograr?</h2></div></div>
+    <div class="tree reveal" id="tree"></div>
+  </section>
+
+  <section class="section wrap" id="precios">
+    <div class="sec-h reveal"><div><div class="eyebrow">Carta de precios</div><h2 class="h-lg">Cotice en tiempo real</h2><p class="muted small">Elija servicios, ajuste cantidades y vea el total al instante.</p></div></div>
+    <div id="cotizador"></div>
+  </section>
+
+  <section class="narrow" style="padding-bottom:40px">
+    <div class="fresh reveal">
+      <div class="eyebrow" style="color:var(--cafe)">¿No sabe qué paquete elegir?</div>
+      <h2 class="h-lg" style="margin:6px 0 10px;max-width:18ch">Cuéntenos de su negocio y le proponemos el ideal</h2>
+      <p style="max-width:46ch;margin-bottom:18px">Con su información armamos una propuesta a la medida, sin compromiso.</p>
+      <div class="row"><a class="btn btn-primary" href="/brief">Llenar el brief</a><a class="btn btn-ghost" id="waAsk" target="_blank" rel="noopener" style="background:rgba(255,255,255,.7)">Preguntar por WhatsApp</a></div>
+    </div>
+  </section>
+
+  <section class="section narrow">
+    <div class="sec-h reveal"><div><div class="eyebrow">Cómo trabajamos</div><h2 class="h-lg">Simple, en 4 pasos</h2></div></div>
+    <div class="flow reveal" id="flow"></div>
+  </section>
+
+  <section class="section wrap" id="portafolio">
+    <div class="sec-h reveal"><div><div class="eyebrow">Portafolio</div><h2 class="h-lg">Trabajos recientes</h2></div><div class="socials" id="esRedes"></div></div>
+    <div class="pfolio" id="pf"></div>
+  </section>
+</main>
+<footer class="foot">© <span id="yr"></span> Estudio Maíz · Proyecto Maíz</footer>
+<script src="/assets/core.js"></script>
+<script src="/assets/pub.js"></script>
+<script src="/assets/precios.js"></script>
+<script src="/assets/cotizador.js"></script>
+<script>
+PUB.init("estudio", "Hola, vengo de la página de Estudio Maíz y quisiera información sobre sus servicios.");
+bk.innerHTML = MZ.I.back;
+const TREE = [
+  { e: "📱", c: "#FBE3A0", t: "Contenido para redes sociales", s: "Para publicar con constancia", h: [
+    ["Reels y videos cortos", "3 reels verticales listos para Instagram, Facebook y TikTok"],
+    ["Fotografía de producto y lugar", "Fotos para menú, catálogo y redes"],
+    ["Plan mensual de contenido", "Grabación mensual + calendario de publicaciones"]] },
+  { e: "📣", c: "#f1dfd2", t: "Dar a conocer mi negocio", s: "Para atraer nuevos clientes", h: [
+    ["Video publicitario", "Un video de 30 a 60 s que cuenta quiénes son"],
+    ["Cobertura de evento o temporada", "Lanzamientos, ferias, aniversarios"],
+    ["Entrevista o podcast", "Su historia en Frecuencia Maíz"]] },
+  { e: "♻️", c: "#E3ECD6", t: "Mostrar mi compromiso ambiental", s: "Economía circular que conecta", h: [
+    ["Reel de economía circular", "Cómo reduce, reutiliza o aprovecha residuos"],
+    ["Mini documental", "La historia completa de su práctica sostenible"]] },
+  { e: "🎤", c: "#e9dff3", t: "Soy artista o emprendedor", s: "Para impulsar su marca personal", h: [
+    ["Promoción de artista", "Video musical corto, sesión y contenido para redes"],
+    ["Sesión de fotos", "Retratos y fotos de marca personal"]] }
+];
+tree.innerHTML = TREE.map((n, i) => `<details class="node glass" ${i === 0 ? "open" : ""}><summary><span class="n-ico" style="background:${n.c}">${n.e}</span><span><span style="display:block">${n.t}</span><span class="small muted" style="font-weight:500">${n.s}</span></span>${MZ.I.chev}</summary>
+  <div class="leaves">${n.h.map(h => `<a class="leaf" href="/brief?s=${encodeURIComponent(h[0])}"><span class="dot"></span><span><b>${h[0]}</b><span>${h[1]}</span></span><span class="go">Solicitar →</span></a>`).join("")}</div></details>`).join("");
+tree.querySelectorAll("details").forEach(d => d.addEventListener("toggle", () => { if (d.open) tree.querySelectorAll("details").forEach(o => o !== d && (o.open = false)); }));
+const FLOW = [
+  ["Nos cuenta de su negocio", "Llena el brief en línea (unos 8 minutos) o nos escribe por WhatsApp. Marca en un calendario los días que le convienen."],
+  ["Preparamos su plan", "Con su ficha creamos 3 ideas de reels con guion, storyboard toma por toma y propuesta de precio."],
+  ["Grabamos en su negocio", "Llegamos con cámaras estabilizadas, micrófonos y luces. La visita toma de 2 a 4 horas."],
+  ["Entregamos y publicamos", "En unos 7 días recibe sus videos editados con textos para publicar y recomendaciones de horario."]];
+flow.innerHTML = FLOW.map((f, i) => `<details class="glass" ${i === 0 ? "open" : ""}><summary><span class="num">${i + 1}</span>${f[0]}${MZ.I.chev}</summary><div class="in">${f[1]}</div></details>`).join("");
+MZ.cfgReady.then(C => { esRedes.innerHTML = MZ.redesHTML(C.redes.estudio); waAsk.href = MZ.waLink("Hola, no sé qué paquete elegir. ¿Me pueden orientar?"); });
+PUB.portafolio(pf);
+MZ.cfgReady.then(() => COTIZADOR(document.getElementById("cotizador")));
+</script>
+</body>
+</html>

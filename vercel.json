@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/estudio-maiz/brief", "destination": "/brief" },
+    { "source": "/solicitudes", "destination": "/panel" },
+    { "source": "/admin", "destination": "/panel" }
+  ],
+  "headers": [
+    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] },
+    { "source": "/panel", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
+  ]
+}

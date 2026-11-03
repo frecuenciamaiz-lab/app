@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bitácora Maíz · Flora y fauna de la Reserva Apaneca-Ilamatepec</title>
+<meta name="description" content="Pokédex de la Reserva de Biosfera Apaneca-Ilamatepec: 1,190 especies verificadas, qué vive donde usted está, datos curiosos con voz y un juego para capturarlas.">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="stylesheet" href="/assets/v5.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="/assets/pokedex.css">
+<link rel="stylesheet" href="/assets/v6.css">
+</head>
+<body class="pdx-body">
+<div class="pdx" id="pdx">
+  <header class="pdx-top">
+    <a class="icon-btn" href="/ruta-maiz" id="bk" aria-label="Volver"></a>
+    <div class="pdx-leds"><i class="lens"></i><i class="r"></i><i class="y"></i><i class="g"></i></div>
+    <div class="pdx-title"><b data-i18n="bitacora">Bitácora de la reserva</b><small id="pdxCount"></small></div>
+    <span id="langBox"></span>
+  </header>
+  <nav class="pdx-tabs" id="tabs">
+    <button data-t="cerca" class="on"><span>📍</span><b data-i18n="cerca">Cerca de mí</b></button>
+    <button data-t="lista"><span>📖</span><b data-i18n="pokedex">Bitácora</b></button>
+    <button data-t="explorar"><span>🌽</span><b data-i18n="explorar">Explorar y capturar</b></button>
+    <button data-t="ranking"><span>🏆</span><b data-i18n="ranking">Ranking</b></button>
+  </nav>
+  <main class="pdx-screen" id="scr"></main>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/assets/core.js"></script>
+<script src="/assets/i18n.js"></script>
+<script src="/assets/pokedex.js"></script>
+</body>
+</html>

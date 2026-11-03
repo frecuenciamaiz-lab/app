@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Frecuencia Maíz · Radio en vivo</title>
+<meta name="description" content="Frecuencia Maíz: radio en vivo, música de artistas locales, playlists y saberes del territorio. Tu voz, tu cultura, tu medio.">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/v4.css">
+</head>
+<body class="pub radio rplayer">
+<header class="u-top glass">
+  <a class="icon-btn" href="/" aria-label="Inicio" id="bk"></a>
+  <span class="t">Frecuencia Maíz</span>
+  <a class="btn btn-sm" style="background:var(--verde);color:#fff" href="/solicitud?u=radio">Participar</a>
+</header>
+<main>
+  <section class="wrap" style="padding-top:22px">
+    <div class="onair r-hero reveal">
+      <div class="r-hero-l">
+        <span class="live"><i></i> En vivo · <span id="rShow">Música del territorio</span></span>
+        <h1 class="h-xl" style="margin:12px 0 4px">Tu voz, tu cultura, tu medio</h1>
+        <p style="opacity:.9;max-width:44ch">Radio de Proyecto Maíz desde el occidente de El Salvador: artistas locales, historias y saberes de la Reserva Apaneca-Ilamatepec.</p>
+        <div class="r-now"><div class="r-now-c" id="rNowC"></div><div style="min-width:0"><b id="rNowT">La voz del territorio</b><span id="rNowA">Toque play para escuchar en vivo</span></div></div>
+        <div class="row" style="margin-top:16px"><button class="r-big" id="rBig" aria-label="Reproducir"></button>
+          <div class="seg r-modes" id="rModes"><button data-m="live" class="on">● En vivo</button><button data-m="demanda">A mi gusto</button></div></div>
+        <p class="tiny" style="opacity:.75;margin-top:10px">Después: <span class="r-next" id="rNext"></span></p>
+      </div>
+      <div class="r-hero-r"><div class="r-mascot" id="rMascot"></div><canvas id="rViz" class="r-viz" aria-hidden="true"></canvas></div>
+    </div>
+    <div class="row r-tools">
+      <button class="btn btn-ghost btn-sm" id="rReq">🎙️ Pedir canción o saludo</button>
+      <button class="btn btn-ghost btn-sm" id="rSleep">🌙 Temporizador</button>
+      <div class="socials" id="fmRedes" style="margin-left:auto"></div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="biblioteca" style="padding-top:28px">
+    <div class="sec-h"><div><div class="eyebrow" style="color:var(--verde)">Biblioteca</div><h2 class="h-lg">Escuche a su gusto</h2><p class="small muted" id="rCount"></p></div>
+      <label class="r-search glass">🔎<input id="rQ" type="search" placeholder="Buscar canción o artista"></label></div>
+    <div class="chips" id="rGen" style="margin-bottom:12px"></div>
+    <div class="r-lib glass" id="rLib"></div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:20px">
+    <div class="sec-h"><div><div class="eyebrow" style="color:var(--verde)">Sus playlists</div><h2 class="h-lg">Arme su propia radio</h2><p class="small muted">Se guardan en este dispositivo y puede compartirlas.</p></div></div>
+    <div class="r-pls" id="rLists"></div>
+  </section>
+
+  <section class="section wrap">
+    <div class="grid g2">
+      <div class="card glass"><div class="eyebrow" style="color:var(--verde)">Programación</div><h2 class="h-md" style="margin:4px 0 12px">Qué suena cada día</h2><div id="rProg"></div></div>
+      <div class="card glass"><div class="eyebrow" style="color:var(--verde)">Anúnciese en Frecuencia Maíz</div><h2 class="h-md" style="margin:4px 0 12px">Llegue a todo el occidente</h2><div id="rAds"></div>
+        <a class="btn btn-primary btn-sm" style="margin-top:12px" href="/solicitud?u=radio&t=Anunciar%20mi%20negocio">Quiero anunciarme</a></div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:30px">
+    <div class="sec-h"><div><div class="eyebrow" style="color:var(--verde)">Áreas creativas</div><h2 class="h-lg">Lo que hacemos</h2></div></div>
+    <div class="areas" id="areas"></div>
+    <div class="card pad-lg glass" style="margin-top:16px"><h2 class="h-md">¿Quiere ser parte?</h2><p class="muted small" style="margin:6px 0 14px">Proponga un tema, comparta su historia o presente su música.</p><div class="tree" id="part"></div></div>
+  </section>
+</main>
+<div class="r-player glass" id="rPlayer">
+  <div class="r-seek" id="rpSeek"><i id="rpBar"></i></div>
+  <div class="r-pc" id="rpC"></div>
+  <div class="r-pi"><b id="rpT">Frecuencia Maíz</b><span id="rpA">Toque play para escuchar</span></div>
+  <span class="r-time tiny muted" id="rpTime"></span>
+  <button class="ib" id="rpLike" aria-label="Me gusta"></button>
+  <button class="ib" id="rpPrev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="currentColor" style="transform:scaleX(-1)"><path d="M5 6.2v11.6a1 1 0 001.6.8l8.2-5.8a1 1 0 000-1.6L6.6 5.4A1 1 0 005 6.2zM17 5h2v14h-2z"/></svg></button>
+  <button class="r-pp" id="rpPlay" aria-label="Reproducir"></button>
+  <button class="ib" id="rpNext" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 6.2v11.6a1 1 0 001.6.8l8.2-5.8a1 1 0 000-1.6L6.6 5.4A1 1 0 005 6.2zM17 5h2v14h-2z"/></svg></button>
+  <input class="r-vol" id="rpVol" type="range" min="0" max="1" step="0.05" aria-label="Volumen">
+</div>
+<footer class="foot">© <span id="yr"></span> Frecuencia Maíz · Proyecto Maíz</footer>
+<script src="/assets/core.js"></script>
+<script src="/assets/pub.js"></script>
+<script src="/assets/precios.js"></script>
+<script>
+PUB.init("radio", "Hola, vengo de la radio Frecuencia Maíz.");
+bk.innerHTML = MZ.I.back;
+rMascot.innerHTML = MZ.mascot(220);
+const A = [["📻", "Radio", "Programas y conversaciones sobre el territorio"], ["🎙️", "Podcast", "Entrevistas con productores, artistas y emprendedores"],
+  ["🎶", "Música", "Promoción de artistas locales"], ["🌿", "NaturalMente", "Biodiversidad, saberes y economía circular"],
+  ["🎭", "Cultura y arte", "Teatro, pintura, tradiciones y memoria"], ["📸", "Contenido", "Producción audiovisual con Estudio Maíz"]];
+areas.innerHTML = A.map(a => `<div class="area glass"><span class="e">${a[0]}</span><b>${a[1]}</b><p>${a[2]}</p></div>`).join("");
+const P = [["💡", "Proponer un tema o programa"], ["📢", "Anunciar mi negocio"], ["🎤", "Presentar mi música"], ["🤝", "Alianza o patrocinio"]];
+part.innerHTML = P.map(p => `<a class="leaf" href="/solicitud?u=radio&t=${encodeURIComponent(p[1])}"><span class="dot" style="background:var(--verde-2)"></span><span><b>${p[0]} ${p[1]}</b></span><span class="go">Enviar →</span></a>`).join("");
+MZ.cfgReady.then(C => {
+  fmRedes.innerHTML = MZ.redesHTML(C.redes.frecuencia);
+  rAds.innerHTML = PRECIOS().radio.map(r => `<div class="prog"><span class="h" style="min-width:72px">${money(r.precio)}<small class="tiny muted"> ${MZ.esc(r.unidad)}</small></span><div><b>${MZ.esc(r.nombre)}</b><p class="small muted">${MZ.esc(r.desc)}</p></div></div>`).join("");
+});
+</script>
+<script src="/assets/radio.js"></script>
+</body>
+</html>

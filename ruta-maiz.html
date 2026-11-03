@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ruta Maíz · Rutas, sabores y negocios locales</title>
+<meta name="description" content="Descubra cafés, restaurantes, hospedajes, fincas y tiendas del occidente de El Salvador. Rutas recomendadas, promociones y recompensas.">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="stylesheet" href="/assets/ruta.css">
+<link rel="stylesheet" href="/assets/v5.css">
+<link rel="stylesheet" href="/assets/v6.css">
+</head>
+<body class="ruta">
+<div class="r-app">
+  <div class="r-mapwrap">
+    <div id="map"></div>
+    <div class="r-search">
+      <a class="icon-btn glass" href="/" aria-label="Inicio" id="bk"></a>
+      <label class="r-bar glass"><span>🔎</span><input id="q" type="search" placeholder="Buscar lugar, comida o municipio" autocomplete="off"></label>
+    </div>
+    <div class="r-cats" id="cats"></div>
+    <div class="r-tools"><button class="icon-btn glass" id="loc" aria-label="Mi ubicación">📍</button><button class="icon-btn glass" id="lay" aria-label="Capas del mapa">🗂️</button><button class="icon-btn glass r-3d" id="b3d" aria-label="Vista 3D">3D</button></div>
+  </div>
+  <section class="r-panel" id="panel">
+    <button class="r-grab" id="grab" aria-label="Bajar o subir el panel"><i></i><span>Ver más mapa</span></button>
+    <div class="seg r-tabs" id="tabs">
+      <button data-t="lugares" class="on">Lugares</button><button data-t="rutas">Rutas</button><button data-t="pasaporte">Pasaporte</button><a href="/bitacora" class="r-tab-link">Bitácora 🌽</a><button data-t="negocios">Para negocios</button>
+    </div>
+    <div id="pbody"></div>
+  </section>
+</div>
+<script>if(sessionStorage.getItem("maiz_osm")){document.write('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>')}</script>
+<script src="/assets/core.js"></script>
+<script src="/assets/gmap.js"></script>
+<script src="/assets/precios.js"></script>
+<script src="/assets/pasaporte.js"></script>
+<script src="/assets/mapa3d.js"></script>
+<script src="/assets/ruta.js"></script>
+</body>
+</html>

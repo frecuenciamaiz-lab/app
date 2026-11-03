@@ -1,0 +1,68 @@
+/* Ronda 5 · estilos nuevos (idioma, mapa 3D, panel plegable, pasaporte antiguo, portafolio en vivo) */
+/* ---- de app.css ---- */
+/* selector de idioma */
+.lang-pick{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:999px;font-size:.85rem;flex:none;cursor:pointer}
+.lang-pick select{border:0;background:transparent;font:inherit;color:inherit;font-weight:600;cursor:pointer;outline:none;max-width:110px}
+
+/* ---- de ruta.css ---- */
+.r3d .maplibregl-map{position:absolute;inset:0}
+.r3d .maplibregl-ctrl-top-right{top:calc(64px + var(--safe-t,0px))}
+.m3d-pin{display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.m3d-pin span{background:var(--cafe);color:var(--hueso);font-size:.72rem;font-weight:650;padding:4px 9px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.m3d-pin::after{content:"";width:3px;height:26px;background:linear-gradient(var(--pollo),transparent)}
+.seg .r-tab-link{padding:8px 14px;border-radius:999px;font-weight:700;font-size:.88rem;color:var(--cafe);background:var(--pollo);text-decoration:none;white-space:nowrap}
+/* panel plegable */
+.r-grab{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;height:auto;background:none;border:0;margin:0 auto 8px;padding:2px 0 4px;cursor:pointer;color:var(--ink-3);font:inherit;font-size:.72rem}
+.r-grab i{width:44px;height:5px;border-radius:9px;background:rgba(59,36,24,.25)}
+.r-mapwrap{transition:height .35s var(--ease)}
+.r-app.min .r-mapwrap{height:calc(100vh - 210px);height:calc(100dvh - 210px)}
+.r-app.min .r-panel{min-height:0;padding-bottom:calc(96px + var(--safe-b))}
+.r-app.min #pbody{display:none}
+.r-app.min .r-grab i{transform:rotate(180deg)}
+@media(min-width:900px){.r-grab{display:none}.r-app.min #pbody{display:block}}
+/* ===== Pasaporte de viajero antiguo, con toque místico ===== */
+.pp-shelf{display:flex;gap:6px;justify-content:center;align-items:flex-end;flex-wrap:nowrap;margin-bottom:14px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none;
+  border-bottom:6px solid #6E4A33;box-shadow:0 6px 0 -2px #3B2418;border-radius:2px}
+.pp-shelf .pp-lomo{flex:none;border:0;cursor:pointer;height:64px;min-width:74px;padding:6px 10px;border-radius:4px 4px 2px 2px;text-decoration:none;
+  background:linear-gradient(90deg,rgba(0,0,0,.35),transparent 18%,transparent 82%,rgba(0,0,0,.35)),linear-gradient(180deg,var(--c,#5b1f1a),color-mix(in srgb,var(--c,#5b1f1a) 70%,#000));
+  color:#f1d48a;font:700 .66rem/1.15 Georgia,"Times New Roman",serif;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;text-align:center;
+  box-shadow:inset 0 6px 0 -3px rgba(241,212,138,.6),inset 0 -6px 0 -3px rgba(241,212,138,.6);transition:transform .35s var(--spring),height .35s var(--spring)}
+.pp-shelf .pp-lomo.on{height:78px;transform:translateY(-2px);box-shadow:inset 0 6px 0 -3px #f1d48a,inset 0 -6px 0 -3px #f1d48a,0 0 18px rgba(241,212,138,.55)}
+.pp-shelf .pp-lomo.dex{--c:#8a1d1d;background:linear-gradient(180deg,#d8352a 0 48%,#1c1c1c 48% 54%,#f3efe6 54%);color:#2a1a11;text-shadow:0 1px 0 #fff}
+.pp-book{filter:drop-shadow(0 20px 26px rgba(30,16,8,.45))}
+.pp-page{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;color:#3b2418;
+  background:radial-gradient(130% 90% at 50% 40%,transparent 55%,rgba(120,72,30,.28)),
+    linear-gradient(90deg,rgba(59,36,24,.22),rgba(59,36,24,0) 26px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='4' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .3 0 0 0 0 .12 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23p)'/%3E%3C/svg%3E"),
+    linear-gradient(160deg,#f6ead0,#ead6ad)}
+.pp-page::after{content:"";position:absolute;inset:8px 8px 8px 14px;border:1px solid rgba(110,74,51,.35);border-radius:4px 12px 12px 4px;pointer-events:none;
+  box-shadow:inset 0 0 0 3px rgba(246,234,208,.6),inset 0 0 0 4px rgba(110,74,51,.18)}
+.pp-page.cv::after{display:none}
+.pp-hd{font-family:Georgia,serif;letter-spacing:.28em;color:#6e3b1f;border-bottom:0;background:linear-gradient(90deg,transparent,rgba(110,74,51,.45),transparent) bottom/100% 1px no-repeat}
+.pp-hd::before,.pp-hd::after{content:" ✦ ";color:#b8860b}
+.pp-cover{background:
+    radial-gradient(120% 80% at 30% 10%,rgba(120,40,30,.55),transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='l'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='3' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .05 0 0 0 0 .02 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23l)'/%3E%3C/svg%3E"),
+    linear-gradient(160deg,#4a1c16,#2b0f0c 70%,#1a0907);
+  box-shadow:inset 8px 0 0 rgba(0,0,0,.45),inset 0 0 0 9px rgba(0,0,0,.15),inset 0 0 0 11px rgba(217,165,20,.55),inset 0 0 0 13px rgba(0,0,0,.25),inset 0 0 0 14px rgba(217,165,20,.35),inset 0 0 60px rgba(0,0,0,.6)}
+.pp-insignias .pp-cover{background-color:#1f3b2c;background-blend-mode:multiply,normal,normal;background-image:radial-gradient(120% 80% at 30% 10%,rgba(60,120,80,.5),transparent 60%),linear-gradient(160deg,#1f3b2c,#0d1d14)}
+.pp-premios .pp-cover{background-image:radial-gradient(120% 80% at 30% 10%,rgba(70,90,160,.5),transparent 60%),linear-gradient(160deg,#1d2c4f,#0b1226)}
+.pp-orn{position:absolute;inset:22px;border-radius:4px 12px 12px 4px;pointer-events:none;opacity:.75;
+  background:
+    radial-gradient(circle at 0 0,transparent 18px,#D9A514 19px,transparent 20px) top left/40px 40px no-repeat,
+    radial-gradient(circle at 100% 0,transparent 18px,#D9A514 19px,transparent 20px) top right/40px 40px no-repeat,
+    radial-gradient(circle at 0 100%,transparent 18px,#D9A514 19px,transparent 20px) bottom left/40px 40px no-repeat,
+    radial-gradient(circle at 100% 100%,transparent 18px,#D9A514 19px,transparent 20px) bottom right/40px 40px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200' fill='none' stroke='%23D9A514' stroke-width='.8' opacity='.55'%3E%3Ccircle cx='100' cy='100' r='70'/%3E%3Ccircle cx='100' cy='100' r='58' stroke-dasharray='2 4'/%3E%3Cpath d='M100 18v164M18 100h164M42 42l116 116M158 42L42 158'/%3E%3Cpath d='M100 30l6 64 64 6-64 6-6 64-6-64-64-6 64-6z'/%3E%3C/svg%3E") center/78% no-repeat}
+.pp-cover>*:not(.pp-orn){position:relative}
+.pp-ct{font-family:Georgia,"Times New Roman",serif;letter-spacing:.22em;text-shadow:none;filter:drop-shadow(0 1px 0 rgba(0,0,0,.6))}
+.pp-cs,.pp-cc{font-family:Georgia,serif}
+.pp-emb{animation:ppGlow 4s ease-in-out infinite}
+.pp-big{font-size:3.4rem;filter:sepia(.6) saturate(1.4)}
+@keyframes ppGlow{50%{box-shadow:0 0 0 2px #D9A514,0 0 0 6px rgba(217,165,20,.25),0 0 30px 6px rgba(241,212,138,.35)}}
+.pp-open{font-family:Georgia,serif;letter-spacing:.08em}
+.pp-mrz{font-family:"OCR B","Courier New",monospace}
+@media (prefers-reduced-motion:reduce){.pp-emb{animation:none}}
+.pp-shelf .pp-lomo{flex:1 1 0;min-width:0;max-width:130px;padding:6px 4px;font-size:.58rem;white-space:normal;word-break:break-word}
+.pp-shelf .pp-lomo.dex{align-items:flex-end;padding-bottom:8px}
+.pp-tabs.pp-shelf .pp-lomo.on{color:#f1d48a;background:linear-gradient(90deg,rgba(0,0,0,.35),transparent 18%,transparent 82%,rgba(0,0,0,.35)),linear-gradient(180deg,var(--c),color-mix(in srgb,var(--c) 70%,#000))}

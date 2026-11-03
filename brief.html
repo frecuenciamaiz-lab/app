@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cuéntenos de su negocio · Estudio Maíz</title>
+<meta name="description" content="Brief creativo de Estudio Maíz: cuéntenos de su negocio para preparar su contenido y agendar la grabación.">
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="stylesheet" href="/assets/brief.css">
+</head>
+<body class="brief">
+<header class="b-top glass">
+  <a class="icon-btn" href="/estudio-maiz" aria-label="Volver" id="bBack"></a>
+  <div class="b-top-mid">
+    <div class="b-top-step" id="bStepName">Su negocio</div>
+    <div class="b-progress"><i id="bBar"></i></div>
+  </div>
+  <div class="b-count" id="bCount">1/8</div>
+</header>
+
+<div class="b-layout">
+  <aside class="b-side glass" id="bSide" aria-label="Secciones"></aside>
+  <main class="b-main">
+    <section class="b-card glass" id="bCard" aria-live="polite"></section>
+    <nav class="b-nav glass" id="bNav">
+      <button class="btn btn-ghost" id="bPrev">Anterior</button>
+      <button class="btn btn-primary" id="bNext">Siguiente</button>
+    </nav>
+    <p class="tiny muted b-save" id="bSave">Su avance se guarda automáticamente en este dispositivo.</p>
+  </main>
+</div>
+
+<script>if(sessionStorage.getItem("maiz_osm")){document.write('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>')}</script>
+<script src="/assets/core.js"></script>
+<script src="/assets/gmap.js"></script>
+<script src="/assets/brief.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Solicitud · Proyecto Maíz</title>
+<link rel="stylesheet" href="/assets/app.css">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="pub">
+<header class="u-top glass">
+  <a class="icon-btn" href="/" aria-label="Volver" id="bk"></a>
+  <span class="t" id="tt">Solicitud</span>
+</header>
+<main class="narrow" style="padding-top:22px">
+  <form class="card pad-lg glass" id="f" novalidate></form>
+</main>
+<script src="/assets/core.js"></script>
+<script src="/assets/pub.js"></script>
+<script>
+const q = new URLSearchParams(location.search);
+const U = ["estudio", "radio", "ruta"].includes(q.get("u")) ? q.get("u") : "estudio";
+const UN = { estudio: ["Estudio Maíz", "/estudio-maiz", "estudio"], radio: ["Frecuencia Maíz", "/radio-frecuencia-maiz", "radio"], ruta: ["Ruta Maíz", "/ruta-maiz", "ruta"] }[U];
+PUB.init(UN[2]);
+bk.innerHTML = MZ.I.back; bk.href = UN[1]; tt.textContent = UN[0];
+const TIPOS = {
+  radio: ["Proponer un tema o programa", "Anunciar mi negocio", "Presentar mi música", "Alianza o patrocinio"],
+  ruta: ["Unir mi negocio a Ruta Maíz", "Crear mi menú digital", "Patrocinar una ruta", "Sugerir un lugar"],
+  estudio: ["Cotización de servicio", "Otra consulta"] };
+let tipo = (q.get("t") && TIPOS[U].includes(q.get("t"))) ? q.get("t") : TIPOS[U][0];
+let plan = q.get("p") || "";
+const esc = MZ.esc;
+function draw() {
+  const ruta = U === "ruta" && /Unir|menú/.test(tipo);
+  f.innerHTML = `<h1 class="h-lg" style="margin-bottom:6px">${U === "ruta" ? "Hablemos de su negocio" : U === "radio" ? "Sea parte de Frecuencia Maíz" : "Cuéntenos qué necesita"}</h1>
+    <p class="muted" style="margin-bottom:20px">Le respondemos por WhatsApp.</p>
+    <div class="field"><span class="lbl">¿Qué desea hacer?</span><div class="chips" id="tp">${TIPOS[U].map(t => `<button type="button" class="chip ${t === tipo ? "on" : ""}">${t}</button>`).join("")}</div></div>
+    <div class="field"><label class="lbl" for="n">${ruta ? "Nombre del negocio" : "Nombre"} *</label><input class="input" id="n" maxlength="150"></div>
+    <div class="grid g2" style="gap:0 12px">
+      <div class="field"><label class="lbl" for="c">${ruta ? "Persona de contacto" : "Su nombre"}</label><input class="input" id="c" maxlength="150"></div>
+      <div class="field"><label class="lbl" for="w">WhatsApp *</label><input class="input" id="w" type="tel" inputmode="tel" placeholder="7000 0000" maxlength="20"></div></div>
+    <div class="field"><label class="lbl" for="e">Correo (opcional)</label><input class="input" id="e" type="email" maxlength="150"></div>
+    ${ruta ? `<div class="grid g2" style="gap:0 12px"><div class="field"><label class="lbl" for="mu">Municipio</label><input class="input" id="mu" maxlength="80"></div>
+      <div class="field"><label class="lbl" for="ca">Tipo de negocio</label><select class="input" id="ca">${["Café", "Restaurante", "Hospedaje", "Finca", "Tienda", "Experiencia"].map(x => `<option>${x}</option>`).join("")}</select></div></div>
+      <div class="field"><span class="lbl">Plan de interés</span><div class="chips" id="pl">${["Básico (gratis)", "Destacado", "Aliado"].map(x => `<button type="button" class="chip ${plan && x.toLowerCase().startsWith(plan.toLowerCase()) ? "on" : ""}">${x}</button>`).join("")}</div></div>
+      <div class="field"><label class="lbl" for="mn">¿Ya tiene menú o catálogo digital? Pegue el enlace</label><input class="input" id="mn" type="url" placeholder="https://… (si no tiene, se lo creamos)" maxlength="300"></div>` : ""}
+    <div class="field"><label class="lbl" for="m">Mensaje</label><textarea class="input" id="m" maxlength="1500" placeholder="Cuéntenos un poco más"></textarea></div>
+    <button class="btn btn-primary btn-block" id="go">Enviar</button>`;
+  tp.onclick = e => { const b = e.target.closest(".chip"); if (b) { tipo = b.textContent; draw(); } };
+  if (window.pl) pl.onclick = e => { const b = e.target.closest(".chip"); if (b) { plan = b.textContent; pl.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === b)); } };
+}
+draw();
+f.onsubmit = async e => {
+  e.preventDefault();
+  const v = id => (document.getElementById(id) || {}).value || "";
+  const w = v("w").replace(/\D/g, "");
+  if (!v("n").trim()) return MZ.toast("Escriba el nombre.");
+  if (w.length < 8) return MZ.toast("Revise el número de WhatsApp.");
+  if (v("mn") && !/^https?:\/\//.test(v("mn"))) return MZ.toast("El enlace del menú debe empezar con https://");
+  const datos = { mensaje: v("m"), municipio: v("mu"), categoria: v("ca"), menu: v("mn") };
+  Object.keys(datos).forEach(k => !datos[k] && delete datos[k]);
+  go.disabled = true; go.textContent = "Enviando…";
+  try {
+    await MZ.sbInsert("solicitudes", { unidad: U, tipo: tipo.slice(0, 60), paquete: (plan || "").slice(0, 120) || null, nombre: v("n").trim().slice(0, 150), contacto: v("c").slice(0, 150), whatsapp: v("w").slice(0, 30), correo: v("e").slice(0, 150), datos, estado: "recibido" });
+    MZ.track("solicitud");
+    const msg = `Hola, acabo de enviar una solicitud a ${UN[0]}: ${tipo}. Nombre: ${v("n")}.`;
+    f.innerHTML = `<div style="text-align:center">${MZ.mascot(110)}<h1 class="h-lg">¡Recibido!</h1><p class="muted" style="margin:10px 0 20px">Gracias. Le escribiremos pronto por WhatsApp.</p>
+      <a class="btn btn-wa" target="_blank" rel="noopener" href="${MZ.waLink(msg)}">${MZ.I.wa} Continuar por WhatsApp</a><div style="margin-top:10px"><a class="btn btn-ghost" href="${UN[1]}">Volver</a></div></div>`;
+  } catch (err) { MZ.toast("No se pudo enviar. Intente de nuevo."); go.disabled = false; go.textContent = "Enviar"; }
+};
+</script>
+</body>
+</html>
