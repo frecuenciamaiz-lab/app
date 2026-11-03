@@ -55,7 +55,8 @@ vercel.json             rutas limpias y cabeceras
 4. **Panel** → entre a `/panel`, sección **Sitio**, y revise marca, colores y mapa.
 5. **Bitácora** → Panel → Bitácora → *Importar especies* con `datos/bitacora-especies.json`, y luego *Buscar fotos*.
 
-Para trabajar con Claude en el proyecto, pegue el contenido de `docs/PROMPT-MAESTRO.md`.
+Para trabajar con Claude en el proyecto, pegue `docs/PROMPT-MAESTRO.md` junto con
+`docs/PROMPT-COMPORTAMIENTO.md` (qué es el proyecto + cómo se trabaja).
 Para recrear solo la base de datos, use `docs/PROMPT-SUPABASE-DESDE-CERO.md` (contiene las claves).
 
 ---
