@@ -45,7 +45,8 @@ Antes de proponer cambios, lea en el repositorio:
 - `docs/CONTEXTO-PROYECTO.md` — **el documento principal**: todo lo construido, cómo funciona
   cada parte, la base de datos y la lista de pendientes
 - `docs/MIGRACION-SUPABASE.md` — cómo mover la base de datos entre cuentas
-- `supabase/migraciones/` — el SQL que recrea la base de datos completa
+- `supabase/TODO-EN-UNO.sql` — toda la base de datos en un solo archivo
+- `docs/PROMPT-SUPABASE-DESDE-CERO.md` — cómo recrear Supabase desde cero, con las claves
 - `datos/bitacora-especies.json` — las 1,191 especies
 
 ## Cómo está hecho

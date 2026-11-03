@@ -34,7 +34,11 @@ guarde la contraseña de la base de datos en un lugar seguro.
 
 ### 2. Ejecutar las migraciones
 
-Abra *SQL Editor* y ejecute, **uno por uno y en orden**, los archivos de `supabase/migraciones/`:
+**La forma rápida:** abra *SQL Editor* y ejecute de una sola vez el archivo
+**`supabase/TODO-EN-UNO.sql`**. Ya trae las 9 migraciones en orden, la clave real del panel
+y la configuración del sitio. Las claves y el detalle están en `docs/PROMPT-SUPABASE-DESDE-CERO.md`.
+
+Si prefiere ir paso a paso, ejecute **uno por uno y en orden** los archivos de `supabase/migraciones/`:
 
 ```
 01_20261027031055_brief_audiovisual.sql
@@ -48,13 +52,13 @@ Abra *SQL Editor* y ejecute, **uno por uno y en orden**, los archivos de `supaba
 09_20261102213007_importar_especies.sql
 ```
 
-**Antes de ejecutar, cambie estas tres cosas:**
+**Antes de ejecutar, cambie estas tres cosas** (en `TODO-EN-UNO.sql` ya están todas juntas):
 
-| Archivo | Qué cambiar |
+| Qué buscar | Por qué cambiarlo |
 |---|---|
-| `01` y `02` | `CAMBIE-ESTA-CLAVE` por la clave real del panel |
-| `06` | `estudio-maiz.vercel.app` por el dominio nuevo (en los avisos de WhatsApp) |
-| `07` | `pgwhbrkvwzticuewxwen` por el id del proyecto nuevo |
+| `CAMBIE-ESTA-CLAVE` (solo en `migraciones/01` y `02`) | la clave del panel; en `TODO-EN-UNO.sql` ya está puesta la real |
+| `estudio-maiz.vercel.app` | el dominio nuevo, en los avisos de WhatsApp |
+| `pgwhbrkvwzticuewxwen` | el id del proyecto nuevo (se ve en la URL de Supabase) |
 
 ### 3. Crear el almacenamiento
 
