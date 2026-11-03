@@ -14,7 +14,11 @@
     escribanos: ["Escríbanos", "Message us", "Écrivez-nous", "Schreiben Sie uns"],
     // ---- bitácora / pokédex ----
     bitacora: ["Bitácora de la reserva", "Reserve field guide", "Carnet de la réserve", "Reservat-Logbuch"],
-    sub_bitacora: ["Flora y fauna verificada del Área de Conservación Apaneca-Ilamatepec", "Verified flora and fauna of the Apaneca-Ilamatepec Conservation Area", "Faune et flore vérifiées de l'aire de conservation Apaneca-Ilamatepec", "Geprüfte Flora und Fauna des Schutzgebiets Apaneca-Ilamatepec"],
+    reserva: ["Reserva de Biosfera Apaneca-Ilamatepec", "Apaneca-Ilamatepec Biosphere Reserve", "Réserve de biosphère Apaneca-Ilamatepec", "Biosphärenreservat Apaneca-Ilamatepec"],
+    vista_foto: ["Fotos", "Photos", "Photos", "Fotos"],
+    vista_lista: ["Lista", "List", "Liste", "Liste"],
+    sin_foto_aun: ["Buscando fotos…", "Finding photos…", "Recherche de photos…", "Fotos werden gesucht…"],
+    sub_bitacora: ["Flora y fauna verificada de la Reserva de Biosfera Apaneca-Ilamatepec", "Verified flora and fauna of the Apaneca-Ilamatepec Biosphere Reserve", "Faune et flore vérifiées de la Réserve de biosphère Apaneca-Ilamatepec", "Geprüfte Flora und Fauna des Biosphärenreservats Apaneca-Ilamatepec"],
     cerca: ["Cerca de mí", "Near me", "Près de moi", "In meiner Nähe"],
     pokedex: ["Bitácora", "Field guide", "Carnet", "Logbuch"],
     explorar: ["Explorar y capturar", "Explore & catch", "Explorer et capturer", "Erkunden & fangen"],

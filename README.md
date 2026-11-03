@@ -1,5 +1,7 @@
 # Proyecto Maíz · plataforma web
 
+> 👉 **Si va a trabajar en este proyecto, empiece por [`LIBRO-MAESTRO.md`](LIBRO-MAESTRO.md).**
+
 Plataforma de **Proyecto Maíz** (occidente de El Salvador, Reserva de Biosfera Apaneca-Ilamatepec).
 Reúne tres unidades y una app de naturaleza:
 

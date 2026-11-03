@@ -210,7 +210,7 @@
   // ---------- Pasaporte (libro) ----------
   function pasaporte() {
     drawMarkers(filtered());
-    PASAPORTE(body(), { LOC, pass, savePass, insignias, detail });
+    PASAPORTE(body(), { LOC, RUT, pass, savePass, insignias, detail });
   }
 
   function precioPlan(k, def) {

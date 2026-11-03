@@ -1,0 +1,112 @@
+/* Ronda 7 · fotos a color, visor tipo Pokédex, holograma a color natural,
+   medallas por ruta, libros con volumen y maíz minimalista */
+
+/* ===== Reemplaza el holograma azul de la ficha: foto a color real ===== */
+.pdx-hero{background:linear-gradient(170deg,#4a2e1f,#2a160d);padding:12px 12px 8px}
+.pdx-visor{position:relative;border-radius:20px;overflow:hidden;
+  box-shadow:inset 0 0 0 3px var(--pollo),inset 0 0 0 6px #2a160d,0 10px 26px -12px rgba(0,0,0,.8)}
+.pdx-hero .pdx-ph.big{border:0;border-radius:0;aspect-ratio:4/3;font-size:4rem;filter:none;animation:none;opacity:1;
+  -webkit-mask-image:none;mask-image:none;background-color:#e9e2d6}
+.pdx-glass{position:absolute;inset:0;pointer-events:none;border-radius:20px;
+  background:linear-gradient(118deg,rgba(255,255,255,.26) 0 14%,rgba(255,255,255,.05) 22%,transparent 34%)}
+.pdx-hero .pdx-num{top:20px;left:22px;background:var(--pollo);color:var(--cafe);font-weight:900;letter-spacing:.04em}
+.pdx-hero [data-x]{top:20px;right:22px}
+.pdx-hero .pdx-thumbs i{border-radius:8px;border:2px solid rgba(255,255,255,.25)}
+.pdx-hero .pdx-thumbs i.on{border-color:var(--pollo);opacity:1}
+
+/* ===== Miniaturas: la foto manda ===== */
+.pdx-it{display:block;overflow:hidden;padding:0;filter:none;background:#fff;gap:0}
+.pdx-it .pdx-ph{display:block;border-radius:0;aspect-ratio:4/3;width:100%;height:auto;background-color:#efe7da;position:relative}
+.pdx-it .pdx-ph i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal}
+.pdx-it .tx{display:block;padding:8px 10px 10px;min-width:0}
+.pdx-it .n{position:absolute;top:6px;left:6px;z-index:3;background:rgba(12,7,3,.82);color:#ffe9a8;padding:3px 8px;border-radius:999px;font-size:.62rem;box-shadow:0 1px 6px rgba(0,0,0,.5)}
+.pdx-it .ok{z-index:2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.pdx-it:not(.cap) .pdx-ph{filter:saturate(.25) brightness(.92)}
+.pdx-it:not(.cap):hover .pdx-ph{filter:none}
+.pdx-it b{font-size:.84rem}
+.pdx-it i{display:block;font-size:.68rem}
+/* franja de color por grupo, como los tipos de Pokémon */
+.pdx-it::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--gc,#9a8877)}
+.pdx-it.g-mam{--gc:#b5651d}.pdx-it.g-ave{--gc:#2f86c5}.pdx-it.g-rep{--gc:#6a9a2f}
+.pdx-it.g-anf{--gc:#1f9a8a}.pdx-it.g-inv{--gc:#9a55cf}.pdx-it.g-pla{--gc:#4F6B3A}
+.pdx-it.g-lug{--gc:#8A5A3B}.pdx-it.g-cul{--gc:#D9A514}
+.pdx-it.legendaria::before{content:"";position:absolute;inset:0;border-radius:18px;pointer-events:none;z-index:2;
+  box-shadow:inset 0 0 0 2px var(--pollo),inset 0 0 18px rgba(244,194,48,.45)}
+/* vista en lista */
+.pdx-grid.lista{grid-template-columns:1fr;gap:6px}
+.pdx-grid.lista .pdx-it{display:flex;flex-direction:row;align-items:center;border-radius:14px}
+.pdx-grid.lista .pdx-ph{width:64px;height:64px;aspect-ratio:1;flex:none}
+.pdx-grid.lista .n{position:static;background:none;color:var(--ink-3);padding:0 0 0 10px;backdrop-filter:none}
+.pdx-grid.lista .tx{flex:1;padding:8px 10px}
+.pdx-grid.lista .ok{position:static;margin-right:10px}
+.pdx-grid.lista .pdx-it::after{top:0;right:auto;width:4px;height:auto}
+.pdx-vista{grid-column:1/-1;display:flex;gap:4px;justify-self:end}
+.pdx-vista button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:.78rem;cursor:pointer;color:var(--ink-2)}
+.pdx-vista button.on{background:var(--cafe);color:var(--hueso);border-color:var(--cafe)}
+
+/* ===== Visor 3D: proyección a color natural, definida ===== */
+.pdx-holo .pdx-3dbox{background:linear-gradient(180deg,#1a1410,#0d0906);border-color:rgba(244,194,48,.3);color:#f3ead8;box-shadow:0 0 50px rgba(0,0,0,.6)}
+.pdx-holo .pdx-3dbox .muted{color:#b7a78f}
+.pdx-holo .icon-btn{background:rgba(244,194,48,.14);color:#f3ead8;border-color:rgba(244,194,48,.35)}
+.holo-wrap{position:relative;margin-top:10px;border-radius:18px;overflow:hidden}
+.pdx-holo .pdx-3dv{margin-top:0;background:radial-gradient(85% 70% at 50% 100%,#241a12,#0b0705);aspect-ratio:1/1}
+.pdx-holo .pdx-3dv iframe{filter:none;animation:none;background:transparent}
+/* modo proyección: luz y profundidad, NO tinte de color */
+.holo-wrap.proy .pdx-3dv{background:radial-gradient(80% 65% at 50% 92%,#123744,#060e14 70%)}
+.holo-wrap.proy .pdx-3dv iframe{filter:contrast(1.12) saturate(1.1) brightness(1.06) drop-shadow(0 0 22px rgba(130,225,255,.35))}
+.holo-rim,.holo-piso{position:absolute;pointer-events:none;opacity:0;transition:opacity .4s}
+.holo-wrap.proy .holo-rim,.holo-wrap.proy .holo-piso{opacity:1}
+.holo-rim{inset:0;border-radius:18px;box-shadow:inset 0 0 50px rgba(120,220,255,.22),inset 0 0 0 1px rgba(150,235,255,.3);
+  background:repeating-linear-gradient(0deg,rgba(170,240,255,.055) 0 1px,transparent 1px 5px);mix-blend-mode:screen}
+.holo-piso{left:14%;right:14%;bottom:6%;height:26px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(165,245,255,.85),rgba(60,190,230,.3) 55%,transparent);
+  filter:blur(1px);box-shadow:0 0 44px 14px rgba(90,215,255,.3);animation:hPulso 3s ease-in-out infinite}
+@keyframes hPulso{50%{opacity:.62;transform:scaleX(.93)}}
+.pdx-spin{animation:spin3 9s linear infinite;box-shadow:0 26px 44px -18px #000,0 0 40px rgba(244,194,48,.25)}
+@media (prefers-reduced-motion:reduce){.holo-piso{animation:none}}
+
+/* ===== Libros con volumen (estilo tomo antiguo) ===== */
+.pp-book{filter:drop-shadow(0 26px 30px rgba(24,12,6,.55))}
+.pp-book::before,.pp-book::after{content:"";position:absolute;top:1.5%;bottom:1.5%;border-radius:3px;pointer-events:none;z-index:0}
+/* canto de hojas a la derecha */
+.pp-book::after{right:-9px;width:11px;
+  background:repeating-linear-gradient(90deg,#efe3c6 0 1px,#cdbc96 1px 2px,#f7eed8 2px 3px);
+  box-shadow:2px 2px 7px rgba(24,12,6,.45);transform:perspective(500px) rotateY(10deg);transform-origin:left center}
+/* lomo a la izquierda */
+.pp-book::before{left:-7px;width:9px;background:linear-gradient(90deg,#1b0a08,#4a1c16 55%,#2b0f0c);
+  box-shadow:inset 1px 0 0 rgba(217,165,20,.35),-2px 2px 8px rgba(0,0,0,.5)}
+.pp-insignias .pp-book::before{background:linear-gradient(90deg,#0b1710,#1f3b2c 55%,#102319)}
+.pp-premios .pp-book::before{background:linear-gradient(90deg,#070d1c,#1d2c4f 55%,#111b33)}
+.pp-page{box-shadow:inset 14px 0 22px -16px rgba(60,36,18,.75),inset -6px 0 14px -12px rgba(60,36,18,.45)}
+.pp-page.cv{box-shadow:none}
+/* la hoja se curva al pasar la página */
+.pp-leaf{transition:transform .72s cubic-bezier(.36,.06,.2,1),box-shadow .72s,filter .72s}
+.pp-leaf.turn{box-shadow:-34px 0 46px rgba(0,0,0,.4);filter:brightness(.88)}
+.pp-cover{box-shadow:inset 8px 0 0 rgba(0,0,0,.5),inset 0 0 0 9px rgba(0,0,0,.18),inset 0 0 0 11px rgba(217,165,20,.6),
+  inset 0 0 0 13px rgba(0,0,0,.3),inset 0 0 0 14px rgba(217,165,20,.4),inset 0 0 70px rgba(0,0,0,.65),
+  inset -3px -3px 10px rgba(255,220,150,.08)}
+.pp-ct{text-shadow:0 1px 0 rgba(255,235,170,.25),0 2px 3px rgba(0,0,0,.7)}
+/* cierre metálico del tomo */
+.pp-cover::after{content:"";position:absolute;right:-2px;top:38%;width:16px;height:24%;border-radius:4px 2px 2px 4px;
+  background:linear-gradient(90deg,#8d6b16,#e8c75c 45%,#8d6b16);box-shadow:0 2px 6px rgba(0,0,0,.6)}
+.pp-cover.back::after{display:none}
+
+/* ===== Medallas: estilos por categoría ===== */
+.md-case{grid-template-columns:repeat(4,1fr)}
+.md-slot.ruta{background:radial-gradient(circle at 50% 40%,#1d2c18,#0a1207);box-shadow:inset 0 3px 8px rgba(0,0,0,.8),inset 0 0 0 1px rgba(217,165,20,.25)}
+.md-cinta{position:absolute;top:0;left:50%;transform:translateX(-50%);width:16px;height:14px;
+  background:linear-gradient(180deg,#b23b2e,#7d1f16);clip-path:polygon(0 0,100% 0,100% 100%,50% 72%,0 100%)}
+.md-slot{position:relative}
+.md-nueva{position:absolute;right:-2px;top:-2px;width:14px;height:14px;border-radius:50%;background:var(--pollo);
+  box-shadow:0 0 0 2px #2c0f18,0 0 10px var(--pollo);animation:mdNew 1.6s ease-in-out infinite}
+@keyframes mdNew{50%{transform:scale(.72)}}
+.md-sec{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:#6e3b1f;margin:14px 0 6px;font-weight:800;text-align:center}
+
+/* ===== Pantalla de la Pokédex ===== */
+.pdx-screen{box-shadow:var(--shadow),inset 0 0 0 4px rgba(244,194,48,.35),inset 0 2px 20px rgba(59,36,24,.08)}
+.pdx-tabs button.on{box-shadow:0 6px 16px -8px rgba(217,165,20,.9),inset 0 0 0 2px rgba(255,255,255,.5)}
+@media(max-width:520px){
+  .pdx-grid{gap:8px}
+  .pdx-vista{justify-self:stretch}
+  .pdx-vista button{flex:1}
+}

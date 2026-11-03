@@ -143,9 +143,10 @@
     const id = "m" + Math.random().toString(36).slice(2, 7);
     const K = "#1d1d1b", T = "#1F9AAE";
     let kern = "";
-    for (let r = 0; r < 10; r++) for (let c = 0; c < 6; c++) {
-      const x = 39 + c * 8.4 + (r % 2 ? 4.2 : 0), y = 22 + r * 8;
-      kern += `<circle cx="${x}" cy="${y}" r="4.1" fill="url(#${id}k)" stroke="#E2A80B" stroke-width=".8"/>`;
+    // granos minimalistas: insinuados con luz suave, sin contornos duros
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 5; c++) {
+      const x = 42 + c * 9.6 + (r % 2 ? 4.8 : 0), y = 28 + r * 10.5;
+      kern += `<ellipse cx="${x}" cy="${y}" rx="3.9" ry="4.4" fill="url(#${id}k)" opacity=".5"/>`;
     }
     return `<svg class="mascot mz" width="${size}" height="${size}" viewBox="0 0 120 120" role="img" aria-label="Mascota de Proyecto Maíz: elote con lentes y audífonos">
       <style>
@@ -162,7 +163,7 @@
         @media (prefers-reduced-motion:reduce){.mz *{animation:none!important}}
       </style>
       <defs>
-        <radialGradient id="${id}k" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFF6C8"/><stop offset="1" stop-color="#F9C823"/></radialGradient>
+        <radialGradient id="${id}k" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#FFF9DC"/><stop offset=".6" stop-color="#FCE08A" stop-opacity=".75"/><stop offset="1" stop-color="#F6C92B" stop-opacity="0"/></radialGradient>
         <clipPath id="${id}c"><path d="M60 14c19 0 25 24 25 48 0 26-11 42-25 42S35 88 35 62c0-24 6-48 25-48z"/></clipPath>
         <linearGradient id="${id}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8CCB4E"/><stop offset="1" stop-color="#3E8E3A"/></linearGradient>
       </defs>

@@ -59,10 +59,18 @@
   let icT; const icSave = () => { clearTimeout(icT); icT = setTimeout(() => { try { localStorage.setItem("pdx_inat", JSON.stringify(IC)); } catch (e) { for (const k in IC) delete IC[k]; } }, 800); };
   let cola = Promise.resolve(); const turno = fn => (cola = cola.then(() => new Promise(r => setTimeout(r, 350))).then(fn).catch(() => null));
   async function inat(s) {
-    const k = s.cientifico.toLowerCase(); if (IC[k] && IC[k].v === 2) return IC[k];
-    const r = await turno(() => fetch(`https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(s.cientifico)}&per_page=1&locale=${LANG}`).then(x => x.json()));
-    const x = r && r.results && r.results[0];
-    IC[k] = { v: 2, id: x ? x.id : null, foto: x && x.default_photo ? x.default_photo.medium_url : null, credito: x && x.default_photo ? x.default_photo.attribution : "", nombre: x ? x.preferred_common_name : "" };
+    const k = s.cientifico.toLowerCase(); if (IC[k] && IC[k].v === 3) return IC[k];
+    const pedir = async q => {
+      const r = await turno(() => fetch(`https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(q)}&per_page=3&locale=${LANG}`).then(x => x.json()));
+      return ((r && r.results) || []).find(y => y.default_photo) || null;
+    };
+    let x = await pedir(s.cientifico);
+    // si la especie exacta no tiene foto, se usa una del mismo género (se avisa en la ficha)
+    const gen = s.cientifico.split(" ")[0];
+    let aprox = false;
+    if (!x && gen && gen !== s.cientifico) { x = await pedir(gen); aprox = !!x; }
+    IC[k] = { v: 3, id: x ? x.id : null, aprox, foto: x && x.default_photo ? x.default_photo.medium_url : null,
+      credito: x && x.default_photo ? x.default_photo.attribution : "", nombre: x ? x.preferred_common_name : "" };
     icSave(); return IC[k];
   }
   async function inatDetalle(id) {
@@ -81,6 +89,7 @@
     if (u) { el.style.backgroundImage = `url('${u}')`; el.classList.add("ok"); }
   }
   const foto = (s, cls) => `<span class="pdx-ph ${cls || ""} ${s.imagen_url ? "ok" : ""}" data-id="${s.id}" ${s.imagen_url ? `style="background-image:url('${esc(s.imagen_url)}')"` : ""}><i>${ICO[s.tipo] || "🌿"}</i></span>`;
+  const GRUPO = { "Mamífero": "mam", "Ave": "ave", "Reptil": "rep", "Anfibio": "anf", "Invertebrado": "inv", "Planta": "pla", "Lugar": "lug", "Cultura": "cul" };
   const obs = root => root.querySelectorAll(".pdx-ph:not(.ok)").forEach(el => io ? io.observe(el) : fotoTarjeta(el));
   const ICO = { "Mamífero": "🦊", "Ave": "🐦", "Reptil": "🦎", "Anfibio": "🐸", "Invertebrado": "🦋", "Planta": "🌿", "Lugar": "⛰️", "Cultura": "🎨" };
   const num = n => "#" + String(n).padStart(4, "0");
@@ -156,17 +165,19 @@
   function bindChips(fn) { scr.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { grupo = b.dataset.g; fn(); }); }
 
   // ---------- LISTA (Pokédex completa) ----------
-  let q = "", fArea = "", soloCap = false, pagina = 1;
+  let q = "", fArea = "", soloCap = false, pagina = 1, modo = localStorage.getItem("pdx_vista") || "foto";
   function lista() {
     const g = [...new Set(E.map(s => s.tipo))];
     scr.innerHTML = `<div class="pdx-search"><input class="input" id="q" type="search" placeholder="🔎 ${t("buscar")}" value="${esc(q)}">
         <select class="input" id="fa"><option value="">📍 ${t("todo")}</option>${ANP.map(a => `<option value="${a.code}" ${fArea === a.code ? "selected" : ""}>${esc(a.nombre)}</option>`).join("")}</select>
-        <label class="pdx-tg"><input type="checkbox" id="sc" ${soloCap ? "checked" : ""}> ${t("filtros_capt")}</label></div>
+        <label class="pdx-tg"><input type="checkbox" id="sc" ${soloCap ? "checked" : ""}> ${t("filtros_capt")}</label>
+        <div class="pdx-vista" id="vw"><button data-v="foto" class="${modo === "foto" ? "on" : ""}">🖼️ ${t("vista_foto")}</button><button data-v="lista" class="${modo === "lista" ? "on" : ""}">📋 ${t("vista_lista")}</button></div></div>
       <div class="pdx-chips">${chipG(g)}</div><div class="pdx-grid" id="grid"></div><div id="mas"></div>`;
     const go = () => { pagina = 1; pintar(); };
     scr.querySelector("#q").oninput = e => { q = e.target.value; clearTimeout(go.t); go.t = setTimeout(go, 250); };
     scr.querySelector("#fa").onchange = e => { fArea = e.target.value; go(); };
     scr.querySelector("#sc").onchange = e => { soloCap = e.target.checked; go(); };
+    scr.querySelector("#vw").onclick = e => { const b = e.target.closest("[data-v]"); if (!b) return; modo = b.dataset.v; localStorage.setItem("pdx_vista", modo); lista(); };
     bindChips(lista); pintar();
     function pintar() {
       const qq = q.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -180,9 +191,10 @@
   }
   function pintarGrid(L) {
     const gr = scr.querySelector("#grid");
-    gr.innerHTML = L.map(s => { const c = P.cap[s.id]; return `<button class="pdx-it ${c ? "cap" : ""} ${s.rareza}" data-id="${s.id}">
+    gr.className = "pdx-grid " + modo;
+    gr.innerHTML = L.map(s => { const c = P.cap[s.id]; return `<button class="pdx-it g-${GRUPO[s.tipo] || "pla"} ${c ? "cap" : ""} ${s.rareza}" data-id="${s.id}">
       <span class="n">${num(s.n)}</span>${c ? '<span class="ok">🌽</span>' : ""}${foto(s)}
-      <b>${esc(s.nombre.split("/")[0].trim())}</b><i>${esc(s.cientifico)}</i></button>`; }).join("") || `<p class="muted small">—</p>`;
+      <span class="tx"><b>${esc(s.nombre.split("/")[0].trim())}</b><i>${esc(s.cientifico)}</i></span></button>`; }).join("") || `<p class="muted small">—</p>`;
     obs(gr); gr.querySelectorAll(".pdx-it").forEach(b => b.onclick = () => ficha(BYID[b.dataset.id]));
   }
 
@@ -191,7 +203,7 @@
     if (!s) return;
     const bg = document.createElement("div"); bg.className = "pdx-modal";
     const cap = P.cap[s.id];
-    bg.innerHTML = `<div class="pdx-sheet"><div class="pdx-hero holo"><div class="holo-stage">${foto(s, "big")}<i class="holo-scan"></i><i class="holo-base"></i></div><button class="icon-btn" data-x aria-label="${t("cerrar")}">×</button>
+    bg.innerHTML = `<div class="pdx-sheet"><div class="pdx-hero"><div class="pdx-visor">${foto(s, "big")}<i class="pdx-glass"></i></div><button class="icon-btn" data-x aria-label="${t("cerrar")}">×</button>
         <span class="pdx-num">${num(s.n)}</span><div class="pdx-thumbs" id="th"></div></div>
       <div class="pdx-body"><div class="row" style="gap:6px">${rz(s)}${est(s)}<span class="tag">${ICO[s.tipo] || ""} ${t("g_" + s.tipo)}</span></div>
         <h2 id="nm">${esc(s.nombre)}</h2><p class="sci"><i>${esc(s.cientifico)}</i>${s.familia ? " · " + esc(s.familia) : ""}</p>
@@ -213,7 +225,7 @@
     if (det && det.nombre && LANG !== "es") bg.querySelector("#nm").innerHTML = `${esc(det.nombre)} <small class="muted">· ${esc(s.nombre)}</small>`;
     const fotos = (s.imagen_url ? [{ u: s.imagen_url, c: D.foto_credito || "" }] : []).concat(det ? det.fotos : (i && i.foto ? [{ u: i.foto, c: i.credito }] : []));
     const th = bg.querySelector("#th"), hero = bg.querySelector(".pdx-ph.big");
-    const setF = k => { const f = fotos[k]; if (!f) return; hero.style.backgroundImage = `url('${f.u}')`; hero.classList.add("ok"); hero.title = f.c || ""; th.querySelectorAll("i").forEach((x, j) => x.classList.toggle("on", j === k)); bg.querySelector("#cred").textContent = f.c ? "📷 " + f.c : ""; };
+    const setF = k => { const f = fotos[k]; if (!f) return; hero.style.backgroundImage = `url('${f.u}')`; hero.classList.add("ok"); hero.title = f.c || ""; th.querySelectorAll("i").forEach((x, j) => x.classList.toggle("on", j === k)); bg.querySelector("#cred").textContent = (i && i.aprox && !s.imagen_url ? "⚠️ Foto de referencia del género " + s.cientifico.split(" ")[0] + ". " : "") + (f.c ? "📷 " + f.c : ""); };
     th.innerHTML = fotos.length > 1 ? fotos.map((f, k) => `<i data-k="${k}" style="background-image:url('${f.u}')"></i>`).join("") : "";
     th.onclick = e => { const x = e.target.closest("[data-k]"); if (x) setF(+x.dataset.k); };
     const wiki = det && det.wiki;
@@ -236,11 +248,14 @@
   // ---------- 3D (Sketchfab) ----------
   async function ver3d(s) {
     const bg = document.createElement("div"); bg.className = "pdx-modal pdx-3d pdx-holo";
+    const nat = localStorage.getItem("pdx_holo") !== "0";
     bg.innerHTML = `<div class="pdx-3dbox"><div class="row between"><b>🧊 ${esc(s.nombre)}</b><button class="icon-btn" data-x>×</button></div>
-      <div class="holo-wrap"><div class="pdx-3dv" id="v"><p class="muted">${t("cargando")}</p></div><i class="holo-scan"></i><i class="holo-cone"></i></div><p class="tiny muted" id="nota"></p><div class="pdx-3dalt" id="alt"></div></div>`;
+      <div class="holo-wrap${nat ? " proy" : ""}" id="hw"><div class="pdx-3dv" id="v"><p class="muted">${t("cargando")}</p></div><i class="holo-rim"></i><i class="holo-piso"></i></div>
+      <div class="row between" style="margin-top:8px"><p class="tiny muted" id="nota" style="flex:1;min-width:0"></p><button class="btn btn-ghost btn-sm" id="hx">${nat ? "✨ Proyección" : "🔆 Normal"}</button></div><div class="pdx-3dalt" id="alt"></div></div>`;
     document.body.appendChild(bg); bg.onclick = e => { if (e.target === bg || e.target.closest("[data-x]")) bg.remove(); };
-    const v = bg.querySelector("#v"), alt = bg.querySelector("#alt");
-    const embed = uid => { v.innerHTML = `<iframe title="3D" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen src="https://sketchfab.com/models/${uid}/embed?autostart=1&autospin=0.25&ui_theme=dark&ui_infos=0&ui_hint=0&ui_watermark_link=0&ui_controls=0&ui_stop=0&dnt=1&preload=1"></iframe>`; };
+    const v = bg.querySelector("#v"), alt = bg.querySelector("#alt"), hw = bg.querySelector("#hw");
+    bg.querySelector("#hx").onclick = e => { const on = hw.classList.toggle("proy"); localStorage.setItem("pdx_holo", on ? "1" : "0"); e.currentTarget.textContent = on ? "✨ Proyección" : "🔆 Normal"; };
+    const embed = uid => { v.innerHTML = `<iframe title="3D" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen src="https://sketchfab.com/models/${uid}/embed?autostart=1&autospin=0.3&camera=0&transparent=1&ui_theme=dark&ui_infos=0&ui_hint=0&ui_watermark_link=0&ui_controls=0&ui_stop=0&ui_ar=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&dnt=1&preload=1&max_texture_size=2048"></iframe>`; };
     const D = s._d || {};
     const pin = D.modelo_3d && (D.modelo_3d.match(/([0-9a-f]{32})/) || [])[1];
     if (pin) { embed(pin); bg.querySelector("#nota").textContent = t("modelo_ref"); return; }

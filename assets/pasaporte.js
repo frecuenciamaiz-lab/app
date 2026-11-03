@@ -60,7 +60,7 @@
     { nivel: 20, titulo: "Guardián de la reserva", detalle: "Tour guiado gratuito con un aliado de la reserva." }];
 
   window.PASAPORTE = function (el, ctx) {
-    const { LOC, pass, savePass, insignias, detail } = ctx;
+    const { LOC, RUT, pass, savePass, insignias, detail } = ctx;
     let ESP = null, libro = sessionStorage.getItem("pp_lib") || "pasaporte", pagina = +(sessionStorage.getItem("pp_pag_" + libro) || 0), filtroTipo = "";
     const p0 = pass(); if (!p0.desde) { p0.desde = new Date().toISOString(); savePass(p0); }
 
@@ -84,9 +84,15 @@
       "M50 4l40 14v28c0 26-17 42-40 50C27 88 10 72 10 46V18z",
       "M50 4l40 23v46L50 96 10 73V27z",
       "M50 4l9 16 18-6-2 19 18 6-13 14 13 14-18 6 2 19-18-6-9 16-9-16-18 6 2-19-18-6 13-14L5 45l18-6-2-19 18 6z",
-      "M50 2l46 48-46 48L4 50z"];
+      "M50 2l46 48-46 48L4 50z",
+      "M50 6l12 20 23 2-15 17 5 23-25-11-25 11 5-23-15-17 23-2z",
+      "M22 18h56l-6 50a26 26 0 0 1-44 0z",
+      "M50 4a46 46 0 0 1 0 92 30 46 0 0 1 0-92z",
+      "M12 30h76v22a38 38 0 0 1-38 38 38 38 0 0 1-38-38z"];
     const METAL = [["#ffe9a8", "#d9a514", "#7a5508"], ["#d6f3ff", "#3aa0d8", "#0c4f78"], ["#d9f7c9", "#4f9d3a", "#1d4d14"], ["#ffd2c2", "#d8552e", "#6e210c"],
-      ["#f0f0f0", "#a3a9b3", "#4a4f57"], ["#f3d9ff", "#9a55cf", "#46176b"], ["#ffe1b8", "#c97b2a", "#5d3207"], ["#ccfff2", "#20b8a0", "#075346"]];
+      ["#f0f0f0", "#a3a9b3", "#4a4f57"], ["#f3d9ff", "#9a55cf", "#46176b"], ["#ffe1b8", "#c97b2a", "#5d3207"], ["#ccfff2", "#20b8a0", "#075346"],
+      ["#ffe3ef", "#d8477f", "#6b1136"], ["#e2ffd9", "#6fc23a", "#2d5a10"],
+      ["#dde6ff", "#5570d8", "#1b2a6b"], ["#fff0cf", "#e0a63c", "#6b4408"]];
     function medalla(i, b) {
       const f = FORMAS[i % FORMAS.length], c = METAL[i % METAL.length], id = "md" + i + (++fid);
       return `<svg class="md ${b[3] ? "got" : ""}" viewBox="0 0 100 100" aria-label="${esc(b[1])}"><defs>
@@ -96,6 +102,24 @@
         <path d="${f}" fill="none" stroke="${c[0]}" stroke-width="2" transform="translate(50 50) scale(.78) translate(-50 -50)" opacity=".9"/>
         <ellipse cx="40" cy="30" rx="24" ry="12" fill="url(#${id}h)" transform="rotate(-25 40 30)"/>
         <text x="50" y="62" font-size="30" text-anchor="middle">${b[0]}</text></svg>`;
+    }
+    const slot = (b, i) => `<div class="md-slot ${b[4] === "ruta" ? "ruta" : ""} ${b[3] ? "got" : ""}" title="${esc(b[1])}">${b[4] === "ruta" ? '<i class="md-cinta"></i>' : ""}${medalla(i, b)}${b[3] && nuevaMedalla(b) ? '<i class="md-nueva"></i>' : ""}</div>`;
+    const lista8 = (B, off) => `<div class="md-case">${B.map((b, j) => slot(b, off + j)).join("")}${"<div class='md-slot'></div>".repeat(Math.max(0, 8 - B.length))}</div>
+      <div class="md-list">${B.map((b, j) => `<div class="${b[3] ? "got" : ""}"><span class="md-mini">${medalla(off + j, b)}</span><div><b>${esc(b[1])}</b><small>${b[3] ? "✦ Obtenida" : esc(b[2])}</small></div></div>`).join("")}</div>`;
+    function nuevaMedalla(b) {
+      const p = pass(); p.medallas = p.medallas || {};
+      const k = b[5] || b[1];
+      if (p.medallas[k]) return false;
+      p.medallas[k] = new Date().toISOString(); savePass(p); return true;
+    }
+    // Medallas de ruta: una por cada ruta de Ruta Maíz que se complete entera
+    const RUTA_ICO = ["🧭", "☕", "🌋", "🏞️", "🌸", "🍲", "🛖", "🦋", "💧", "🌄"];
+    function medallasRuta(p) {
+      const ids = Object.keys(p.sellos || {});
+      return (RUT || []).filter(r => (r.locales || []).length).map((r, i) => {
+        const st = r.locales, hechos = st.filter(id => ids.includes(id)).length;
+        return [RUTA_ICO[i % RUTA_ICO.length], limpio(r.nombre), hechos >= st.length ? "Ruta completa" : `${hechos} de ${st.length} paradas`, hechos >= st.length, "ruta", r.id];
+      });
     }
     function insigniasTodas(p) {
       let D = {}; try { D = JSON.parse(localStorage.getItem("maiz_pokedex")) || {}; } catch (e) {}
@@ -110,11 +134,12 @@
     function pages() {
       const S = stats(), out = [];
       if (libro === "insignias") {
-        const B = insigniasTodas(S.p); out.push({ k: "tapa", t: "Tapa", h: tapa("LIBRO DE<br>INSIGNIAS", `${B.filter(b => b[3]).length} de ${B.length} obtenidas`, '<span class="pp-big">🏅</span>') });
-        for (let i = 0; i < B.length; i += 8) { const P8 = B.slice(i, i + 8);
-          out.push({ k: "ins", t: "Insignias", h: `<div class="pp-hd">ESTUCHE DE INSIGNIAS · ${i / 8 + 1}</div>
-            <div class="md-case">${P8.map((b, j) => `<div class="md-slot ${b[3] ? "got" : ""}" title="${esc(b[1])}">${medalla(i + j, b)}</div>`).join("")}${"<div class='md-slot'></div>".repeat(8 - P8.length)}</div>
-            <div class="md-list">${P8.map((b, j) => `<div class="${b[3] ? "got" : ""}"><span class="md-mini">${medalla(i + j, b)}</span><div><b>${esc(b[1])}</b><small>${b[3] ? "✦ Obtenida" : esc(b[2])}</small></div></div>`).join("")}</div>` }); }
+        const B = insigniasTodas(S.p), R = medallasRuta(S.p), TODAS = B.concat(R);
+        out.push({ k: "tapa", t: "Tapa", h: tapa("LIBRO DE<br>INSIGNIAS", `${TODAS.filter(b => b[3]).length} de ${TODAS.length} obtenidas`, '<span class="pp-big">🏅</span>') });
+        for (let i = 0; i < B.length; i += 8) out.push({ k: "ins", t: "Insignias", h: `<div class="pp-hd">ESTUCHE DE INSIGNIAS · ${i / 8 + 1}</div>${lista8(B.slice(i, i + 8), i)}` });
+        if (R.length) for (let i = 0; i < R.length; i += 8) out.push({ k: "ins", t: "Rutas", h: `<div class="pp-hd">MEDALLAS DE RUTA</div>
+          <p class="md-sec">Complete todas las paradas de una ruta para ganar su medalla</p>${lista8(R.slice(i, i + 8), 100 + i)}` });
+        else out.push({ k: "ins", t: "Rutas", h: `<div class="pp-hd">MEDALLAS DE RUTA</div><p class="md-sec">Pronto habrá rutas para completar</p>` });
         out.push(fin("“Cada insignia cuenta una historia<br>del occidente.”")); return out;
       }
       if (libro === "premios") {
